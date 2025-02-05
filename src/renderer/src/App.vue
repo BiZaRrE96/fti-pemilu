@@ -8,5 +8,5 @@ const exampleCalon : string[] = ["Dewa","Cunt","Catto"]
 
 <template>
   <h1>Penis</h1>
-  <Ballot :calons="exampleCalon" />
+  <Ballot :calons="exampleCalon" style="text-align: center;"/>
 </template>

@@ -21,6 +21,7 @@ ul {
 .calon {
   display: inline-block;
   width: 20dvw;
+  margin: 0 2.5dvw;
 }
 
 .calon-list{
@@ -34,6 +35,53 @@ ul {
 
 .calon-button:hover {
   opacity: 1
+}
+
+.calon-img {
+  width:20dvw;
+  height:30dvw
+}
+
+.fade-in-zoom {
+  animation: zoomIn 2s ease-in-out forwards, fadeBlur 1.75s cubic-bezier(.19,.73,.66,.7) forwards;
+}
+
+.center-moi {
+  display: inline;
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.8);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes fadeBlur {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.8);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+}
+
+.button-holder {
+  text-align: center;
+}
+
+.button-holder li {
+  display: inline-block;
 }
 
 @media (max-width: 720px) {
