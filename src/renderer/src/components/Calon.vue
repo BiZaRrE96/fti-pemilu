@@ -7,7 +7,7 @@
 
 <template>
     <div> 
-        <img :src="'https://placehold.co/200x300'">
+        <img :src="'https://placehold.co/200x300'" class="calon-img">
         <h1>"Halo aku {{props.cname}}"</h1>
         <ButtonArray />
     </div>

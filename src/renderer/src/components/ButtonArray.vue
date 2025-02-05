@@ -3,8 +3,8 @@
 </script>
 
 <template>
-    <ul>
-        <li style="display: inline;">
+    <ul class="button-holder">
+        <li>
             <button>1</button>
         </li>
         <li>
