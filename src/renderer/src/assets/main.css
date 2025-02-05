@@ -1,0 +1,56 @@
+@import './base.css';
+
+* {
+  outline: 1px solid red;
+}
+
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('./wavy-lines.svg');
+  background-size: cover;
+  user-select: none;
+}
+
+ul {
+  padding: 0;
+}
+
+.calon {
+  display: inline-block;
+  width: 20dvw;
+}
+
+.calon-list{
+  
+}
+
+.calon-button {
+  opacity: 0.5;
+  transition: 0.3s;
+}
+
+.calon-button:hover {
+  opacity: 1
+}
+
+@media (max-width: 720px) {
+  .text {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 620px) {
+  .versions {
+    display: none;
+  }
+}
+
+@media (max-width: 350px) {
+  .tip,
+  .actions {
+    display: none;
+  }
+}
