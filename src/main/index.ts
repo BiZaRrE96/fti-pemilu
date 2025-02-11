@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { getCalonList, logCalonList } from './calon-utils'
+import { getCalonList, logCalonList, getCalonImage } from './calon-utils'
 
 var offlineMode : boolean = true;
 var serverMode : boolean = false;
@@ -52,10 +52,12 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
+  // IPC stuff
+  // Online-offline mode handling could be done here
   ipcMain.handle('ping', () => {console.log('pong'); return 100})
   ipcMain.handle('printCalon', logCalonList)
   ipcMain.handle('calon-list', getCalonList)
+  ipcMain.handle('calon-image', (_event, args) => getCalonImage(args))
 
   createWindow()
 

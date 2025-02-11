@@ -6,7 +6,8 @@ interface testtype {
 }
 
 interface calon_utils {
-    calonList : () => Promise;
+    calonList : () => Promise<string[]>;
+    calonImage : (string) => Promise<string>;
 }
 
 declare global {

@@ -2,8 +2,10 @@ import { contextBridge, ipcRenderer } from 'electron'
 
 // Custom APIs for renderer
 const api = {}
+
 const calon_utils = {
-  calonList: () => ipcRenderer.invoke('calon-list')
+  calonList: () => ipcRenderer.invoke('calon-list'),
+  calonImage: (path : string) => ipcRenderer.invoke('calon-image', path)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

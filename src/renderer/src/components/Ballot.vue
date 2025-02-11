@@ -1,31 +1,40 @@
 <script setup lang="ts">
     import Calon from './Calon.vue';
+    import {provide, reactive } from 'vue';
 
     const props = defineProps<{
         calons?: string[];
     }>();
 
-    import { ref } from 'vue';
+    var pickList : number[] = reactive([])
 
-    const animate = ref(false);
-
-    function animateToggle(message) {
-        animate.value = !animate.value
+    function resetPickList(expectedSize : number) {
+        if (pickList){
+            for (let i = 0; i < expectedSize; i++) {
+            pickList.push(0)
+            }
+        }
+    }
+    
+    //CalonListFetcher
+    if (props.calons) {
+        resetPickList(props.calons.length)
+        console.log("Resetted, now has size",pickList?.length,"(",props.calons.length,")")
+    }
+    else {
+        console.warn("Calons not included!")
     }
 
-    //CalonListFetcher
+    provide("pickList",pickList)
 
 </script>
 
 <template>
-    <div v-if="calons">
+    <div v-if="calons" :class="'fade-in-zoom'">
         <h1>"Choose your kahim..."</h1>
-        <div style="text-align:center">
-            <button style="display: inline-block" @click="animateToggle">Begin!</button>
-        </div>
         <ul class="calon-list">
-            <li v-for="calon in props.calons" class="calon" :class="{'fade-in-zoom': animate}">
-                <Calon :cname="calon" />
+            <li v-for="(calon,index) in props.calons" class="calon">
+                <Calon :cname="calon" :cid="index+1"/>
                 <small>{{ calon }}</small>
             </li>
         </ul>
