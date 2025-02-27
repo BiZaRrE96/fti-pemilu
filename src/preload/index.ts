@@ -13,17 +13,19 @@ const calon_utils = {
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.
-if (process.contextIsolated) {
-  try {
-    //contextBridge.exposeInMainWorld('api', api)
-    contextBridge.exposeInMainWorld('test', { testPing: () => ipcRenderer.invoke("ping"), testPrint: () => ipcRenderer.invoke("printCalon")})
-    contextBridge.exposeInMainWorld('calon_utils', calon_utils)
-  } catch (error) {
-    console.error(error)
-  }
+
+const isAuthWindow = location.pathname.includes("auth.html");
+
+if (isAuthWindow) {
+  console.log("Auth index preload")
+  contextBridge.exposeInMainWorld('challenge', { sendAuthChallenge : (_event, code) => ipcRenderer.send("auth-challenge", code)})   
 } else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
+    console.log("Basic index preload")
+    try {
+      //contextBridge.exposeInMainWorld('api', api)
+      contextBridge.exposeInMainWorld('test', { testPing: () => ipcRenderer.invoke("ping"), testPrint: () => ipcRenderer.invoke("printCalon")})
+      contextBridge.exposeInMainWorld('calon_utils', calon_utils)
+    } catch (error) {
+      console.error(error)
+    }
 }

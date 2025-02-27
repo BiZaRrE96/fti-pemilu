@@ -19,7 +19,7 @@ function createAuthWindow() {
       webPreferences: {
           nodeIntegration: false, // Security best practice
           contextIsolation: true,
-          preload: join(__dirname, '../preload/auth.js'),
+          preload: join(__dirname, '../preload/index.js'),
           sandbox: false
       }
   });
@@ -109,8 +109,8 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  //createAuthWindow()
-  createMainWindow()
+  createAuthWindow()
+  //createMainWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

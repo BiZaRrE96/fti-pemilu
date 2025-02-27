@@ -13,11 +13,16 @@ interface calon_utils {
     saveSelection: () => Promise<boolean>
   }
 
+interface challenge {
+  sendAuthChallenge : (code) => void
+}
+
 declare global {
   interface Window {
     electron: ElectronAPI
     api: unknown
     test: testtype
     calon_utils: calon_utils
+    challenge : challenge
   }
 }
