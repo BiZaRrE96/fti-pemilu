@@ -1,6 +1,7 @@
 <script setup lang="ts">
-    import Calon from './Calon.vue';
-    import {provide, reactive } from 'vue';
+    import { error } from 'console';
+import Calon from './Calon.vue';
+    import {onMounted, provide, reactive } from 'vue';
 
     const props = defineProps<{
         calons?: string[];
@@ -15,18 +16,35 @@
             }
         }
     }
+
+    const loadSound = new Audio('/loaded.mp3')
+    const errorSound = new Audio('/Error.mp3')
     
-    //CalonListFetcher
-    if (props.calons) {
-        resetPickList(props.calons.length)
-        console.log("Resetted, now has size",pickList?.length,"(",props.calons.length,")")
-    }
-    else {
-        console.warn("Calons not included!")
+    function loadSoundPlay() {
+        loadSound.currentTime = 0;
+        loadSound.play();
     }
 
-    provide("pickList",pickList)
+    function errorSoundPlay() {
+        errorSound.currentTime = 0;
+        errorSound.play();
+    }
 
+    onMounted(() => {
+        //CalonListFetcher
+        if (props.calons) {
+            resetPickList(props.calons.length)
+            console.log("Resetted, now has size",pickList?.length,"(",props.calons.length,")")
+            loadSoundPlay();
+        }
+        else {
+            console.warn("Calons not included!")
+            errorSoundPlay();
+        }
+
+        provide("pickList",pickList)
+    })
+    
 </script>
 
 <template>

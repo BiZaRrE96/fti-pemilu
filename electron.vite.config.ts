@@ -4,12 +4,13 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
   },
   preload: {
     plugins: [externalizeDepsPlugin()]
   },
   renderer: {
+    publicDir: resolve(__dirname, 'public'),
     resolve: {
       alias: {
         '@renderer': resolve('src/renderer/src')
