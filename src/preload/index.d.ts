@@ -8,7 +8,10 @@ interface testtype {
 interface calon_utils {
     calonList : () => Promise<string[]>;
     calonImage : (string) => Promise<string>;
-}
+    dummyDataTest : () => void;
+    logSelection: (selection : number[]) => Promise<boolean>,
+    saveSelection: () => Promise<boolean>
+  }
 
 declare global {
   interface Window {

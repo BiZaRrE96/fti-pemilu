@@ -1,7 +1,7 @@
 @import './base.css';
 
 * {
-  outline: 1px solid red;
+  outline: 1px solid purple;
 }
 
 
@@ -12,6 +12,8 @@ body {
   background-image: url('./wavy-lines.svg');
   background-size: cover;
   user-select: none;
+  height: 100dvh;
+  margin: 0;
 }
 
 ul {
@@ -46,19 +48,6 @@ ul {
   animation: zoomIn 2s ease-in-out forwards, fadeBlur 1.75s cubic-bezier(.19,.73,.66,.7) forwards;
 }
 
-.center-moi {
-  display: inline;
-}
-
-.pick-button {
-  width: 5dvw;
-  height: 3dvh;
-  transition: 1.0s;
-}
-
-.pick-button.selected {
-  height: 7dvh;
-}
 
 @keyframes zoomIn {
   0% {
@@ -84,13 +73,6 @@ ul {
   }
 }
 
-.button-holder {
-  text-align: center;
-}
-
-.button-holder li {
-  display: inline-block;
-}
 
 @media (max-width: 720px) {
   .text {
@@ -114,4 +96,66 @@ ul {
 .trans-enter-active,
 .trans-leave-active {
   transition: any 4s ease;
+}
+
+/* Button styles */
+.center-moi {
+  display: inline;
+}
+
+.pick-button {
+  display: inline-block;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+  height: 70%;
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(.3,1.25,.49,2);
+  vertical-align: middle;
+  opacity: 75%;
+}
+
+.pick-button.selected {
+  height: 90%;
+  opacity: 100%;
+}
+
+.button-holder {
+  height: 7dvh;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.button-holder li {
+  flex-grow: 1;
+  display: flex;
+  height: 100%;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  padding: 0;
+}
+
+@keyframes flip {
+  0% {
+      transition: position 2.0s;
+      position: fixed;
+  }
+
+  80% {
+      top: 5dvh;
+      left: 5dvw;
+  }
+
+  100% {
+      height: 90dvh;
+      width: 90dvw;
+  }
+  
 }
