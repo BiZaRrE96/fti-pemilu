@@ -19,7 +19,7 @@ function createAuthWindow() {
       webPreferences: {
           nodeIntegration: false, // Security best practice
           contextIsolation: true,
-          preload: join(__dirname, '../preload/index.js'),
+          preload: join(__dirname, '../preload/auth.js'),
           sandbox: false
       }
   });

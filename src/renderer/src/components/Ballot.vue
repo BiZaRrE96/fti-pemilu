@@ -1,11 +1,14 @@
 <script setup lang="ts">
     import { error } from 'console';
-import Calon from './Calon.vue';
-    import {onMounted, provide, reactive } from 'vue';
+    import Calon from './Calon.vue';
+    import {onMounted, provide, reactive, ref } from 'vue';
+import { read } from 'fs';
 
     const props = defineProps<{
         calons?: string[];
     }>();
+
+    const ready = ref(false);
 
     var pickList : number[] = reactive([])
 
@@ -43,12 +46,14 @@ import Calon from './Calon.vue';
         }
 
         provide("pickList",pickList)
+        console.log("Provided picklist")
+        ready.value = true
     })
     
 </script>
 
 <template>
-    <div v-if="calons" :class="'fade-in-zoom'">
+    <div v-if="ready" :class="'fade-in-zoom'">
         <h1>"Choose your kahim..."</h1>
         <ul class="calon-list">
             <li v-for="(calon,index) in props.calons" class="calon">
@@ -58,6 +63,6 @@ import Calon from './Calon.vue';
         </ul>
     </div>
     <div v-else>
-        <h2> Failed to fetch calon list...</h2>
+        <h2> Attempting to fetch calon list...</h2>
     </div>
 </template>

@@ -14,18 +14,11 @@ const calon_utils = {
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.
 
-const isAuthWindow = location.pathname.includes("auth.html");
-
-if (isAuthWindow) {
-  console.log("Auth index preload")
-  contextBridge.exposeInMainWorld('challenge', { sendAuthChallenge : (_event, code) => ipcRenderer.send("auth-challenge", code)})   
-} else {
-    console.log("Basic index preload")
-    try {
-      //contextBridge.exposeInMainWorld('api', api)
-      contextBridge.exposeInMainWorld('test', { testPing: () => ipcRenderer.invoke("ping"), testPrint: () => ipcRenderer.invoke("printCalon")})
-      contextBridge.exposeInMainWorld('calon_utils', calon_utils)
-    } catch (error) {
-      console.error(error)
-    }
+console.log("Basic index preload")
+try {
+  //contextBridge.exposeInMainWorld('api', api)
+  contextBridge.exposeInMainWorld('test', { testPing: () => ipcRenderer.invoke("ping"), testPrint: () => ipcRenderer.invoke("printCalon")})
+  contextBridge.exposeInMainWorld('calon_utils', calon_utils)
+} catch (error) {
+  console.error(error)
 }
