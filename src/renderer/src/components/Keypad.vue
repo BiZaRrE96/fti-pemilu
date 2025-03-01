@@ -1,26 +1,39 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 
   const props = defineProps<{
-          onsend? : (arg0 : string) => boolean;
+          onsend? : (arg0 : string) => void;
       }>();
 
-  var input = ''
+  
+  var input = ref('')
+
+  const emit = defineEmits(['update-value']);
+
+  const reportValue = () => {
+    emit('update-value', input.value);
+  };
+
   const orderedNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
   function pressKey(num : number) {
-    input += num.toString();
+    input.value += num.toString();
+    reportValue()
   }
   function reset() {
-    input = '';
+    input.value = '';
+    reportValue()
   }
-  function send(onsend? : (arg0 : string) => boolean) {
+  function send(onsend? : (arg0 : string) => void) {
     if (onsend) {
       console.log("Onsend proc:", input);
-      onsend(input);
+      onsend(input.value);
     } else {
       console.log("Sending:", input);
     }
-    input = '';
+    input.value = '';
+    reportValue()
   }
 
   function attemptSend() {
@@ -48,7 +61,6 @@
       <button @click="pressKey(0)">0</button>
       <button @click="attemptSend">Send</button>
     </div>
-    <button @click="reportProps">rep props</button>
   </template>
   
   <style scoped>
