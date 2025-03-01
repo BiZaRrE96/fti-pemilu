@@ -4,6 +4,17 @@ import HoldButton from './components/HoldButton.vue';
     function finishAuth() {
         window.challenge.sendAuthChallenge(6969);
     }
+
+    function fakesend(str : string) : boolean {
+        console.log("Fakesend triggered :: %s",str);
+        return false
+    }
+
+    function sendAuth(str : string) : boolean {
+        window.challenge.sendAuthChallenge(str);
+        return true
+    }
+
 </script>
 
 <template>
@@ -12,5 +23,5 @@ import HoldButton from './components/HoldButton.vue';
     <HoldButton>
         Hold me
     </HoldButton>
-    <Keypad/>
+    <Keypad :onsend="sendAuth"/>
 </template>

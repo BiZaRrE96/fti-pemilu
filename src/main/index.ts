@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getCalonList, logCalonList, getCalonImage, CalonLogger, dummyDatafier } from './calon-utils'
+import 'bcrypt'
 
 var offlineMode : boolean = true;
 var serverMode : boolean = false;
@@ -26,11 +27,30 @@ function createAuthWindow() {
 
   
   // Simulating authentication success with an event from renderer
-  ipcMain.on("auth-challenge", (_event, code) => {
-    console.log("challenged with %d", code)
-    authenticated = true;
-    createMainWindow();
-    authWindow.close();
+
+  ipcMain.on("auth-challenge", (_event, code : string) => {
+    console.log("challenged with " + code)
+    var correctCode = "$2b$10$d7bipI9F9VilJbx8sXYB1eePP2oVC1p2zMook/Zo0BjLCfnv94y6q"
+    const bcrypt = require('bcrypt')
+
+    bcrypt.compare(code, correctCode, (err, result) => {
+      if (err) {
+          // Handle error
+          console.error('Error comparing passwords:', err);
+          return;
+      }
+  
+      if (result) {
+          // Passwords match, authentication successful
+          console.log('Passwords match! User authenticated.');
+          authenticated = true;
+          createMainWindow();
+          authWindow.close();
+      } else {
+          // Passwords don't match, authentication failed
+          console.log('Passwords do not match! Authentication failed.');
+      }
+      });
   });
 
   // HMR for renderer base on electron-vite cli.
@@ -70,11 +90,10 @@ function createMainWindow(): void {
   ipcMain.handle('log-selection', (_event, args) => {calonLogger.logSelection(args)})
   ipcMain.handle('save-selection', () => {calonLogger.saveCalonResults()})
   ipcMain.handle('dummy-data-test', () => {dummyDatafier(calonLogger,calon_count)})
-
-  // Prepare CalonLogger object
-  calonLogger = new CalonLogger(getCalonList());
   
   calon_list = getCalonList();
+  // Prepare CalonLogger object
+  calonLogger = new CalonLogger(calon_list);
   calon_count = calon_list.length;
 
   mainWindow.on('ready-to-show', () => {
