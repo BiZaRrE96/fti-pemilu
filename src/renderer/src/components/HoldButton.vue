@@ -11,6 +11,7 @@
   <script setup>
   import { ref } from 'vue';
   
+  // Props are like, defining what you can supply to this object
   const props = defineProps({
     holdTime: {
       type: Number,
@@ -24,22 +25,28 @@
   let interval = null;
   
   const startHold = () => {
-    cancelHold();
-    progress.value = props.holdTime;
-    interval = setInterval(() => {
+    cancelHold(); //Cancel for good measure
+    progress.value = props.holdTime; // Reset for how long this should be held
+
+    interval = setInterval(() => { // Tick every 10 ms, then kys when done
       progress.value -= 10;
       if (progress.value <= 0) {
+        emit('held');
+        cancelHold(); // Replace this with fancy done animations if want.
+        // Theres a chance timeouts would be better for post animations, havent tested
         clearInterval(interval);
       }
     }, 10);
     
-    holdTimer.value = setTimeout(() => {
+    /*
+    holdTimer.value = setTimeout(() => { // creates a "timeout", gets called when time "runs out" or in this case held
       emit('held');
-      cancelHold();
+      cancelHold(); // Replace this with fancy done animations if want
     }, props.holdTime);
+    */
   };
   
-  const cancelHold = () => {
+  const cancelHold = () => { // when hold is done or released
     if (holdTimer.value) {
       clearTimeout(holdTimer.value);
       holdTimer.value = null;

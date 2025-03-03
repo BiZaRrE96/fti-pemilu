@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Keypad from './components/Keypad.vue';
-import HoldButton from './components/HoldButton.vue';
 import { ref } from 'vue';
     function finishAuth() {
         window.challenge.sendAuthChallenge(6969);
@@ -25,11 +24,9 @@ import { ref } from 'vue';
 </script>
 
 <template>
+    <!-- Youre not supposed to be here -->
     <h1>Welcome cuh</h1>
     <button @click="finishAuth"> Challenge </button>
-    <HoldButton>
-        Hold me
-    </HoldButton>
     <h2>{{ disp }}</h2>
     <Keypad :onsend="sendAuth" @update-value="displayInput"/>
 </template>

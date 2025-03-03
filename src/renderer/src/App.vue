@@ -6,18 +6,21 @@ import Card from './components/Card.vue'
 //const exampleCalon : string[] = ["Dewa Nanda Putu","Cunt","Catto"]
 var calonList;
 
+// Get calon list from exposed API then set it to a var
 window.calon_utils.calonList().then((value) => {calonList = value});
 
 function testPing(_ : Event) : void {
   window.test.testPing().then((value? : number) => console.log(value))
 }
 
+// Legacy testing funcs
 function fetchCalonList(_ : Event) : void {
   window.calon_utils.calonList().then((value? : any) => {
     console.log(value)
   })
 }
 
+// Legacy testing funcs
 function dummification() : void {
   try {
     window.calon_utils.dummyDataTest();

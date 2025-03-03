@@ -4,6 +4,8 @@
   outline: 1px solid purple;
 }
 
+/* I hate managing CSS honestly */
+/* Which sounds stupid considering i have vite */
 
 body {
   display: flex;

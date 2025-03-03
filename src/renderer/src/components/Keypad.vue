@@ -9,6 +9,7 @@ import { ref } from 'vue';
   
   var input = ref('')
 
+  // List of "emits" or @s, see vue for more
   const emit = defineEmits(['update-value']);
 
   const reportValue = () => {
@@ -37,7 +38,7 @@ import { ref } from 'vue';
   }
 
   function attemptSend() {
-    if (props.onsend) {
+    if (props.onsend) { // whether the onsend function is supplied or not
       console.log("exists")
       send(props.onsend)
     } else {

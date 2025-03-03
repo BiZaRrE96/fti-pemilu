@@ -1,6 +1,8 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import ButtonArray from './ButtonArray.vue';
+
+    // Props are like, defining what you can supply to this object
     const props = defineProps<{
         cname?: string;
         cid: number;
