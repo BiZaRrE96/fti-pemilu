@@ -80,6 +80,8 @@ class CalonLogger {
 
     async saveCalonResults(): Promise<boolean> {
         try{
+            const currentTime = new Date();
+            const safeFilename = `${currentTime.getFullYear()}-${String(currentTime.getMonth() + 1).padStart(2, '0')}-${String(currentTime.getDate()).padStart(2, '0')}_${String(currentTime.getHours()).padStart(2, '0')}-${String(currentTime.getMinutes()).padStart(2, '0')}-${String(currentTime.getSeconds()).padStart(2, '0')}`;
             const sheets = new ExcelJS.Workbook();
             const worksheet = sheets.addWorksheet('Sheet1');
             worksheet.addRow([])
@@ -90,7 +92,7 @@ class CalonLogger {
                 worksheet.addRow(["",date,time,...result.selection])
                 console.log("Voted the following : " + result.selection)
             }
-            await sheets.xlsx.writeFile('output.xlsx');
+            await sheets.xlsx.writeFile('output_' + safeFilename + '.xlsx');
 
             return true
         }
