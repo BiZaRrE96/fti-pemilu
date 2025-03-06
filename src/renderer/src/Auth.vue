@@ -15,10 +15,10 @@ import { ref } from 'vue';
         return
     }
 
-    const disp = ref('')
+    const disp = ref('') //string display
 
     function displayInput(input : string) : void {
-        disp.value = input
+        disp.value = " " + "*".repeat(input.length) + " "
     }
 
 </script>

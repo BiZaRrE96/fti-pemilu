@@ -60,6 +60,8 @@ class CalonLogger {
     }
 
     async logSelection(result : number[]): Promise<boolean> {
+        console.log("Logging...")
+        console.log(result)
         try {
             if (result.length !== this.calon_names.length) {
                 throw "Input list size mismatch! (Expected " + this.calon_names.length + " got " + result.length + ")";
@@ -69,6 +71,7 @@ class CalonLogger {
                 vote.selection[i] = result[i];
             }
             this.selection.push(vote)
+            console.log("Logged!")
             return true
         }
         catch (e: unknown) {
@@ -93,7 +96,7 @@ class CalonLogger {
                 console.log("Voted the following : " + result.selection)
             }
             await sheets.xlsx.writeFile('output_' + safeFilename + '.xlsx');
-
+            console.log("Completed")
             return true
         }
         catch (e: unknown) {

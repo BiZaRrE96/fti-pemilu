@@ -51,7 +51,7 @@ import { ref } from 'vue';
 
 <style lang="css" scoped>
     .lepanel {
-        position: fixed;
+        position: absolute;
         display: flex;
         flex-direction: column;
         left: 20dvw;
@@ -61,6 +61,7 @@ import { ref } from 'vue';
         background-color: cornsilk;
         opacity: 75%;
         color: black;
+        z-index: 10;
         /* Target
         width: 60dvw;
         height: 60dvh;
@@ -83,7 +84,7 @@ import { ref } from 'vue';
     }
 
     .lepanel.open {
-        animation: openpanel 0.25s ease-out;
+        animation: openpanel 0.5s ease-out;
         animation-direction: normal;
         animation-fill-mode: both;
     }

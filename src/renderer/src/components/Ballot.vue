@@ -1,9 +1,11 @@
 <script setup lang="ts">
     import { error } from 'console';
     import Calon from './Calon.vue';
-    import {onMounted, provide, reactive, ref } from 'vue';
+    import {onMounted, provide, reactive, ref, toRaw } from 'vue';
     import HoldButton from './HoldButton.vue';
+    import CancelButton from './CancelButton.vue';
     import { read } from 'fs';
+    import Panel from './Panel.vue';
 
     // Props are like, defining what you can supply to this object
     const props = defineProps<{
@@ -29,7 +31,7 @@
 
     const loadSound = new Audio('/loaded.mp3')
     const errorSound = new Audio('/Error.mp3')
-    
+
     function loadSoundPlay() {
         loadSound.currentTime = 0;
         loadSound.play();
@@ -39,10 +41,11 @@
         errorSound.currentTime = 0;
         errorSound.play();
     }
+
+    const emits = defineEmits(['onSubmit','generalFailure'])
     // End of sound stuff
 
-    // This only gets called once, when the component gets loaded ykyk
-    onMounted(() => {
+    function cleanReset() {
         //CalonListFetcher
         if (props.calons) {
             resetPickList(props.calons.length)
@@ -57,17 +60,29 @@
         provide("pickList",pickList)
         console.log("Provided picklist")
         ready.value = true
+    }
+
+    // This only gets called once, when the component gets loaded ykyk
+    onMounted(() => {
+        cleanReset()
     })
 
     function submit() {
-        console.log(pickList)
+        const toSubmit : number[] = toRaw(pickList)
+        console.log(toSubmit);
+        console.log("calon_utils:", window.calon_utils);
+        console.log("logSelection:", window.calon_utils?.logSelection);
+        window.calon_utils.logSelection(toSubmit).then((value) => {
+            emits('onSubmit',value);
+        }).catch((reason) => {console.log(reason); emits('generalFailure')})
+
     }
     
 </script>
 
 <template>
     <div v-if="ready" :class="'fade-in-zoom'">
-        <h1>"Choose your kahim..."</h1>
+        <span style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;"><h1>"Choose your kahim..."</h1><CancelButton></CancelButton></span>
         <ul class="calon-list">
             <!-- The div that holds all of the calons, buttons are inside Calon object -->
             <li v-for="(calon,index) in props.calons" class="calon">
@@ -76,9 +91,11 @@
             </li>
         </ul>
         <!-- Submission button -->
-        <HoldButton @held="submit" :hold-time="1500">
-        Hold To Submit!
-        </HoldButton>
+         <div style="height: 8dvh; width: 100%; display: flex; justify-content: center; align-items: center;">
+            <HoldButton @held="submit" :hold-time="1500">
+                Hold To Submit!
+            </HoldButton>
+         </div>
     </div>
     <div v-else>
         <h2> Attempting to fetch calon list...</h2>

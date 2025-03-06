@@ -34,38 +34,34 @@ function dummification() : void {
   
 }
 
+function save() : void {
+  window.calon_utils.saveSelection().then((_value) => {
+      console.log("Succesfully written!")
+    }).catch((reason) => {console.log(reason)})
+}
+
   const start = ref(false);
-  const check = ref(true);
+  const complete = ref(false);
 </script>
 
 <template>
-  <div style="text-align:center">
-    <button style="display: inline-block" @click="(_event) => {start= !start}">Begin!</button>
-  </div>
-    <div v-if="!start" key="waiting">
-      <h1>Penis</h1>
-    <button @click="testPing"> TestPing </button>
-    <button @click="fetchCalonList"> fetchCalonList </button>
-    <button @click="(_event) => {console.log('Fuck yeah!')}">Inline fucn test</button>
-    <button @click="(_event) => {dummification()}">Dummify to excel</button>
-    <span><input type="checkbox" v-model="check" /> <label>Test</label></span>
-    
+    <div v-if="!start && !complete" key="waiting" style="width: 80%; display: flex; align-items: center; flex-direction: column; overflow: hidden;">
+      <h1>MTI Voting App</h1>
       Awaiting signal...
-      <div style="transition: all 2.0s; width: min-content;">
-        <Card v-if="check"/>
-        <h2 v-else> Card space </h2>
+      <div style="text-align:center">
+        <button style="display: inline-block" @click="(_event) => {start= !start}">Begin!</button>
       </div>
-      
-      <div class="wrappar" :class="{ expanded: check, shrunken: !check }">
-        <transition name="fadex" mode="out-in">
-          <h1 v-if="check" key="big">BIG ASF YOO</h1>
-          <h2 v-else key="small">I'm small...</h2>
-        </transition>
-      </div>
-
     </div>
-    <div v-else class="wrapper">
-      <Ballot :calons="calonList" key="ballot"/>
+    <div v-else-if="start || complete" class="wrapper" style="width: 80%;">
+      <div v-if="complete">
+        Completed!
+        <button @click="() => {complete=false}">Restart</button>
+      </div>
+        <Ballot v-else-if="start" :calons="calonList" key="ballot" @onSubmit="() => {console.log('Submitted');start = false; complete = true;}"/>
+      </div>
+    <div>
+      Posible problem has occured.
+      <button @click="save">Save</button>
     </div>
 </template>
 
@@ -76,6 +72,12 @@ function dummification() : void {
   width: min-content;
   overflow: hidden;
   transition: max-height 2.0s ease-in-out;
+  height: 100%;
+}
+
+.wrapper {
+  background-color: rgba(25,25,25,0.15);
+  backdrop-filter: blur(5px);
 }
 
 .shrunken {

@@ -87,8 +87,8 @@ function createMainWindow(): void {
   ipcMain.handle('printCalon', logCalonList)
   ipcMain.handle('calon-list', () => {return calon_list})
   ipcMain.handle('calon-image', (_event, args) => getCalonImage(args))
-  ipcMain.handle('log-selection', (_event, args) => {calonLogger.logSelection(args)})
-  ipcMain.handle('save-selection', () => {calonLogger.saveCalonResults()})
+  ipcMain.handle('log-selection', (_event, args) => {return calonLogger.logSelection(args)})
+  ipcMain.handle('save-selection', () => {return calonLogger.saveCalonResults()})
   ipcMain.handle('dummy-data-test', () => {dummyDatafier(calonLogger,calon_count)})
   
   calon_list = getCalonList();
@@ -150,8 +150,11 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
-app.on('before-quit', () => {
+app.on('before-quit', async (event) => {
     if (authenticated) {
-      calonLogger.saveCalonResults();
+      event.preventDefault();
+      await calonLogger.saveCalonResults();
+      authenticated = false;
+      app.quit();
     }
 })
