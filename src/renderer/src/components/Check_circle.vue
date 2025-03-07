@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
+
 // Courtesy of https://codepen.io/xristouz/pen/dybGXdd
+const emits = defineEmits(['animationend']);
 
-
+  onMounted(() => {
+    let timer = setTimeout(() => {
+      console.log("Timer finished!");
+      emits('animationend');
+      clearTimeout(timer);
+    }, 2000);
+  });
 
 </script>
 
