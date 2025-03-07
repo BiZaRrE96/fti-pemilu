@@ -50,7 +50,7 @@
         console.log("Calon number",(props.cid ? props.cid : -1),"is now picked as",order)
     }
 
-    //used to return a string that represents the active picklist
+    /* used to return a string that represents the active picklist 
     function printPicklist() : string {
         var retval = ""
         if (pickList) {
@@ -62,7 +62,7 @@
             retval += "UNDEFINED PICKLIST/ERROR"
         }
         return retval
-    }
+    } */
 </script>
 
 <template>

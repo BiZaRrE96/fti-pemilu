@@ -4,12 +4,12 @@ import { ref } from 'vue';
     function finishAuth() {
         window.challenge.sendAuthChallenge(6969);
     }
-
+    /* Legacy testing code
     function fakesend(str : string) : void {
         console.log("Fakesend triggered :: %s",str);
         return
     }
-
+    */
     function sendAuth(str : string) : void {
         window.challenge.sendAuthChallenge(str);
         return

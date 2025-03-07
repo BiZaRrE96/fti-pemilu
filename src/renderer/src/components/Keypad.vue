@@ -46,10 +46,10 @@ import { ref } from 'vue';
       send()
     }
   }
-
-  function reportProps() {
-    console.log(props)
-  }
+ //
+  // function reportProps() {
+  //   console.log(props)
+  // }
 
 </script>
 

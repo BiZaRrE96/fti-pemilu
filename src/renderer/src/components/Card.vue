@@ -7,8 +7,8 @@ function flipme() {
     console.log("Clicky")
 }
 
-import { defineProps } from 'vue';
-
+//import { defineProps } from 'vue';
+/*
 interface Props {
   cid?: number
 }
@@ -16,7 +16,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   cid: 0
 })
-
+*/
 const position = ref({ top: 0, left: 0, width: 0, height: 0 });
 
 const card = useTemplateRef("zero")

@@ -1,11 +1,10 @@
 <script setup lang="ts">
-    import { error } from 'console';
     import Calon from './Calon.vue';
     import {onMounted, provide, reactive, ref, toRaw } from 'vue';
     import HoldButton from './HoldButton.vue';
     import CancelButton from './CancelButton.vue';
-    import { read } from 'fs';
-    import Panel from './Panel.vue';
+    //import { read } from 'fs';
+    //import Panel from './Panel.vue';
 
     // Props are like, defining what you can supply to this object
     const props = defineProps<{
@@ -92,7 +91,7 @@
         </ul>
         <!-- Submission button -->
          <div style="height: 8dvh; width: 100%; display: flex; justify-content: center; align-items: center;">
-            <HoldButton @held="submit" :hold-time="1500">
+            <HoldButton @held="submit" :hold-time="1000">
                 Hold To Submit!
             </HoldButton>
          </div>
