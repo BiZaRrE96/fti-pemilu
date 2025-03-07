@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-
+import { auth_code } from '../main/auth'
 // Custom APIs for renderer
 
 const calon_utils = {
@@ -19,6 +19,7 @@ try {
   //contextBridge.exposeInMainWorld('api', api)
   contextBridge.exposeInMainWorld('test', { testPing: () => ipcRenderer.invoke("ping"), testPrint: () => ipcRenderer.invoke("printCalon")})
   contextBridge.exposeInMainWorld('calon_utils', calon_utils)
+  contextBridge.exposeInMainWorld('auth', auth_code)
 } catch (error) {
   console.error(error)
 }

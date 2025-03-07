@@ -24,5 +24,6 @@ declare global {
     test: testtype
     calon_utils: calon_utils
     challenge : challenge
+    auth: (code : string) => boolean
   }
 }

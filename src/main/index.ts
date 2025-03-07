@@ -3,10 +3,11 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getCalonList, logCalonList, getCalonImage, CalonLogger, dummyDatafier } from './calon-utils'
-import 'bcrypt'
-
+import { auth_code } from './auth'
+/*
 var offlineMode : boolean = true;
 var serverMode : boolean = false;
+*/
 var calon_list : string[];
 var calon_count : number;
 var calonLogger : CalonLogger;
@@ -32,14 +33,12 @@ function createAuthWindow() {
     console.log("challenged with " + code)
     var correctCode = "$2b$10$d7bipI9F9VilJbx8sXYB1eePP2oVC1p2zMook/Zo0BjLCfnv94y6q"
     const bcrypt = require('bcrypt')
+    
+    console.log("Correct : " + auth_code(code))
 
-    bcrypt.compare(code, correctCode, (err, result) => {
-      if (err) {
-          // Handle error
-          console.error('Error comparing passwords:', err);
-          return;
-      }
-  
+    try {
+      let result = auth_code(code);
+
       if (result) {
           // Passwords match, authentication successful
           console.log('Passwords match! User authenticated.');
@@ -50,7 +49,10 @@ function createAuthWindow() {
           // Passwords don't match, authentication failed
           console.log('Passwords do not match! Authentication failed.');
       }
-      });
+    } catch {
+          throw "Failure on authenticating code!"
+    }
+      
   });
 
   // HMR for renderer base on electron-vite cli.
