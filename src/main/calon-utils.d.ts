@@ -6,6 +6,7 @@ declare class VoteSlip {
     selection: number[];
     constructor(count: number);
 }
+declare function getCalonDesc(calonpath: string): string | undefined;
 declare class CalonLogger {
     calon_names: string[];
     selection: VoteSlip[];

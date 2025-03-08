@@ -24,6 +24,12 @@ function getCalonImage(calonpath: string): string { //OFFLINE IMPLEMENTATION
     return img.toDataURL()
 }
 
+function getCalonDesc(calonpath: string): string | undefined {
+    var calonfolder : string = './calons/' + calonpath + '/desc.txt'
+    var desc = fs.readFileSync(calonfolder).toLocaleString();
+    return desc;
+}
+
 function dummyDatafier(target : CalonLogger, calon_count : number) {
     for (let i = 0; i < 10; i++) {
         let dummySelect : number[] = []
@@ -37,6 +43,8 @@ function dummyDatafier(target : CalonLogger, calon_count : number) {
 
 class VoteSlip {
     public selection : number[] = [];
+    public date : string = "UNDEFINED";
+    public time : string = "UNDEFINED";
 
     constructor(count : number) {
         for (let i = 0; i < count; i++ ) {
@@ -70,6 +78,11 @@ class CalonLogger {
             for (let i = 0; i < result.length; i++) {
                 vote.selection[i] = result[i];
             }
+            let date : string = new Date().toLocaleDateString()
+            let time : string = new Date().toLocaleTimeString()
+
+            vote.date = date;
+            vote.time = time;
             this.selection.push(vote)
             console.log("Logged!")
             return true
@@ -90,9 +103,7 @@ class CalonLogger {
             worksheet.addRow([])
             worksheet.addRow(["","Date","Time",...this.calon_names])
             for (const result of this.selection) {
-                let date : string = new Date().toLocaleDateString()
-                let time : string = new Date().toLocaleTimeString()
-                worksheet.addRow(["",date,time,...result.selection])
+                worksheet.addRow(["",result.date,result.time,...result.selection])
                 console.log("Voted the following : " + result.selection)
             }
             await sheets.xlsx.writeFile('output_' + safeFilename + '.xlsx');
@@ -107,4 +118,4 @@ class CalonLogger {
     }
 }
 
-export {getCalonList, logCalonList, getCalonImage, CalonLogger, dummyDatafier}
+export {getCalonList, logCalonList, getCalonImage, CalonLogger, dummyDatafier, getCalonDesc}

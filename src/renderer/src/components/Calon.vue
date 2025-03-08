@@ -8,17 +8,26 @@
         cname?: string;
         cid: number;
     }>();
-
+    var desc;
     var warning : string
     const imgSource = ref('https://placehold.co/200x300')
 
-    window.calon_utils.calonImage(props.cname).then((value) => {
+    if (props.cname){
+        window.calon_utils.calonImage(props.cname).then((value) => {
         imgSource.value = value;
-    }).catch((reason) => {
-        console.error(reason)
+        }).catch((reason) => {
+            console.error(reason)
 
-        warning = "Couldnt load image!"
-    })
+            warning = "Couldnt load image!"
+        })
+
+        window.calon_utils.calonDesc(props.cname).then((value) => {
+            desc = value;
+        }).catch((reason) => {
+            desc = "Failed to load desc" + reason;
+        })
+    }
+    
 
     const panel = ref(false);
 
@@ -34,12 +43,13 @@
 </script>
 
 <template>
-    <div>
-        <h2 v-if="warning">{{ warning }}</h2>
-        <img :src="imgSource" class="calon-img" @click="togglePanelTrue">
-        <small>{{props.cid}}</small>
-        <h1>"{{props.cname}}"</h1>
-        <ButtonArray :cid="props.cid"/>
-        <Panel v-if="panel" @closed="togglePanelFalse"></Panel>
-    </div>
+        <div class="calontop">
+            <h2 v-if="warning">{{ warning }}</h2>
+            <img :src="imgSource" class="calon-img" @click="togglePanelTrue">
+            <h2>{{props.cname}}</h2>
+            <Panel v-if="panel && desc" @closed="togglePanelFalse">{{ desc }}</Panel>
+        </div>
+        <div style="height: 10%; width: 100%;">
+            <ButtonArray :cid="props.cid"/>
+        </div>
 </template>

@@ -7,7 +7,8 @@ const calon_utils = {
   calonImage: (path : string) => ipcRenderer.invoke('calon-image', path),
   logSelection: (selection : number[]) => ipcRenderer.invoke('log-selection',selection),
   saveSelection: () => ipcRenderer.invoke('save-selection'),
-  dummyDataTest: () => ipcRenderer.invoke('dummy-data-test')
+  dummyDataTest: () => ipcRenderer.invoke('dummy-data-test'),
+  calonDesc: (path : string) => ipcRenderer.invoke('calon-desc',path)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

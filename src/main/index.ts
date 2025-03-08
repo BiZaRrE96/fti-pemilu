@@ -1,8 +1,8 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain , globalShortcut} from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { getCalonList, logCalonList, getCalonImage, CalonLogger, dummyDatafier } from './calon-utils'
+import { getCalonList, logCalonList, getCalonImage, CalonLogger, dummyDatafier, getCalonDesc } from './calon-utils'
 import { auth_code } from './auth'
 /*
 var offlineMode : boolean = true;
@@ -31,8 +31,6 @@ function createAuthWindow() {
 
   ipcMain.on("auth-challenge", (_event, code : string) => {
     console.log("challenged with " + code)
-    var correctCode = "$2b$10$d7bipI9F9VilJbx8sXYB1eePP2oVC1p2zMook/Zo0BjLCfnv94y6q"
-    const bcrypt = require('bcrypt')
     
     console.log("Correct : " + auth_code(code))
 
@@ -88,6 +86,7 @@ function createMainWindow(): void {
   ipcMain.handle('ping', () => {console.log('pong'); return 100})
   ipcMain.handle('printCalon', logCalonList)
   ipcMain.handle('calon-list', () => {return calon_list})
+  ipcMain.handle('calon-desc', (_event, args) => getCalonDesc(args));
   ipcMain.handle('calon-image', (_event, args) => getCalonImage(args))
   ipcMain.handle('log-selection', (_event, args) => {return calonLogger.logSelection(args)})
   ipcMain.handle('save-selection', () => {return calonLogger.saveCalonResults()})
@@ -99,6 +98,13 @@ function createMainWindow(): void {
   calon_count = calon_list.length;
 
   mainWindow.on('ready-to-show', () => {
+    globalShortcut.register('F11', () => {
+      if (mainWindow) {
+        mainWindow.setFullScreen(!mainWindow.isFullScreen());
+      }
+    });
+    mainWindow.removeMenu()
+    //mainWindow.setMenu()
     mainWindow.show()
   })
 
@@ -128,7 +134,9 @@ app.whenReady().then(() => {
   // and ignore CommandOrControl + R in production.
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
   app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
+    if (is.dev) {
+      optimizer.watchWindowShortcuts(window)
+    }
   })
 
   createAuthWindow()
@@ -153,6 +161,7 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 app.on('before-quit', async (event) => {
+    globalShortcut.unregisterAll();
     if (authenticated) {
       event.preventDefault();
       await calonLogger.saveCalonResults();

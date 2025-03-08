@@ -11,6 +11,7 @@ interface calon_utils {
     dummyDataTest : () => void;
     logSelection: (selection : number[]) => Promise<boolean>,
     saveSelection: () => Promise<boolean>
+    calonDesc: (path : string) => Promise<string>;
   }
 
 interface challenge {
