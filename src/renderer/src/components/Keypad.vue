@@ -61,21 +61,23 @@ import { ref } from 'vue';
       <button @click="reset">Reset</button>
       <button @click="pressKey(0)">0</button>
       <button @click="attemptSend">Send</button>
-    </div>
-  </template>
+  </div>
+</template>
   
   <style scoped>
   .keypad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    width: 150px;
+    gap: 0.9% 1.6%;
+    height: 40dvh;
+    aspect-ratio: 302 / 403;
+
   }
   button {
-    padding: 10px;
-    font-size: 16px;
+    font-size: 1.5rem;
     cursor: pointer;
     width: 100%;
+    border-radius : 100%;
     aspect-ratio: 1 / 1;
   }
   </style>

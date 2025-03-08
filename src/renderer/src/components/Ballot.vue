@@ -41,7 +41,7 @@
         errorSound.play();
     }
 
-    const emits = defineEmits(['onSubmit','generalFailure'])
+    const emits = defineEmits(['onSubmit','generalFailure','onAbort'])
     // End of sound stuff
 
     function cleanReset() {
@@ -80,13 +80,14 @@
 </script>
 
 <template>
-    <div v-if="ready" :class="'fade-in-zoom'">
-        <span style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;"><h1>"Choose your kahim..."</h1><CancelButton></CancelButton></span>
+    <div v-if="ready" class="fade-in-zoom">
+        <span style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;"><h1>"Choose your kahim..."</h1>
+            <CancelButton @held="emits('onAbort')"></CancelButton>
+        </span>
         <ul class="calon-list">
             <!-- The div that holds all of the calons, buttons are inside Calon object -->
             <li v-for="(calon,index) in props.calons" class="calon">
                 <Calon :cname="calon" :cid="index+1"/>
-                <small>{{ calon }}</small>
             </li>
         </ul>
         <!-- Submission button -->

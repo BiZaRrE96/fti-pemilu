@@ -1,8 +1,9 @@
 @import './base.css';
-
-* {
+/*
+*{
   outline: 1px solid purple;
 }
+*/
 
 /* I hate managing CSS honestly */
 /* Which sounds stupid considering i have vite */
@@ -24,19 +25,18 @@ ul {
 
 .calon {
   display: inline-block;
-  width: 20dvw;
+  flex-grow: 1;
   margin: 0 2.5dvw;
 }
 
 .calon-list{
   display: flex;
   justify-content: space-around;
-  padding: 0% 5%;
 }
 
 .calon-button {
   opacity: 0.5;
-  transition: 0.3s;
+  transition: 0.25s;
 }
 
 .calon-button:hover {
@@ -44,12 +44,25 @@ ul {
 }
 
 .calon-img {
-  width:18dvw;
-  height:27dvw
+  width:17dvw;
+  height:25.5dvw;
+}
+
+.calontop {
+  height: 90%;
+  width: 100%;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  position: relative;
 }
 
 .fade-in-zoom {
+  opacity: 0;
   animation: zoomIn 2s ease-in-out forwards, fadeBlur 1.75s cubic-bezier(.19,.73,.66,.7) forwards;
+  animation-delay: 0.5s;
 }
 
 

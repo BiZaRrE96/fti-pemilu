@@ -42,15 +42,16 @@ svg {
 }
 
 .container {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   width: 92px;
   height: 92px;
    
   #Layer_1 {
     width: 42px;
-    left: 21px;
-    top: 26px;
+    position: relative;
     stroke-dasharray: 30;
     stroke-dashoffset: 30;
 

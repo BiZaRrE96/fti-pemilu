@@ -23,18 +23,20 @@
   const progress = ref(0);
   let interval = null;
 
-  const confirmingSound = new Audio('/confirming.mp3')
-  const defaultPitch = 0.5;
+  const confirmingSound = new Audio('./Error.mp3')
+  const defaultPitch = 1;
   confirmingSound.playbackRate = defaultPitch;
   confirmingSound.preservesPitch = false;
 
   var confirmInterval;
   function startConfirming() {
+    confirmingSound.currentTime = 0;
+    confirmingSound.play();
       confirmInterval = setInterval(() => {
         confirmingSound.currentTime = 0;
         confirmingSound.play();
-        confirmingSound.playbackRate += 0.05
-      }, 150)
+        confirmingSound.playbackRate += 0.01
+      }, 500)
   }
 
   function stopConfirming() {

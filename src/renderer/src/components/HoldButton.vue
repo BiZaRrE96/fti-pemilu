@@ -1,5 +1,5 @@
 <template>
-    <button @mousedown="startHold" @mouseup="cancelHold" @mouseleave="cancelHold" :class="{pressing : progress > 0}">
+    <button @mousedown="startHold" @mouseup="cancelHold" @mouseleave="cancelHold" class="hbutton" :class="{pressing : progress > 0}">
         <slot>Hold me!</slot>
       <div v-if="progress > 0" class="progress"
         :style="{ width: (1 - progress / props.holdTime) * 100 + '%',
@@ -24,7 +24,7 @@
   const progress = ref(0);
   let interval = null;
 
-  const confirmingSound = new Audio('/confirming.mp3')
+  const confirmingSound = new Audio('./confirming.mp3')
   const defaultPitch = 0.5;
   confirmingSound.playbackRate = defaultPitch;
   confirmingSound.preservesPitch = false;
@@ -113,6 +113,10 @@
   }
   .pressing {
     color: rgba(0,0,0,0);
+  }
+
+  .hbutton{
+    border: 2px solid black;
   }
   </style>
   
