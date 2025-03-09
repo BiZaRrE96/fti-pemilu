@@ -16,6 +16,22 @@
     // How many calons are there, ergo how many buttons the array should have
     const size = pickList ? pickList.length : 0
 
+    const clickSound = new Audio('./click.mp3');
+
+    const hoverSound = new Audio('./hover.mp3');
+
+    function playPressSound() {
+        clickSound.currentTime = 0;
+        clickSound.volume = 1;
+        clickSound.play();
+    }
+
+    function playHoverSound() {
+        hoverSound.currentTime = 0;
+        hoverSound.volume = 0.75;
+        hoverSound.play();
+    }
+
     // Considered abnormal if the button array does not have a size OR it is not supplied with cid OR when cid is larger than size
     // For reference cid starts at 1
     const abnormality = !size || (props.cid ? ((props.cid <= size) ? false : true) : true)
@@ -70,7 +86,7 @@
     <!-- <h1>{{ printPicklist() }}</h1> -->
     <ul class="button-holder">
         <li v-for="index in size">
-            <button @click="(_) => update(index)" :class="{'selected' : checkPress(index), 'pick-button' : true}">{{index}}</button>
+            <button @mouseenter="(_) => {playHoverSound()}" @click="(_) => {update(index); playPressSound()}" :class="{'selected' : checkPress(index), 'pick-button' : true}">{{index}}</button>
         </li>
     </ul>
 </template>

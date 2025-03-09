@@ -19,7 +19,7 @@ function getCalonImage(calonpath: string): string { //OFFLINE IMPLEMENTATION
     var calonfolder : string = './calons/' + calonpath + '/face.png'
     var img : NativeImage = nativeImage.createFromPath(calonfolder)
     if (img.isEmpty()) {
-        throw "could not find '" + calonfolder + "' !"
+        throw ("could not find '" + calonfolder + "' !")
     }
     return img.toDataURL()
 }
@@ -53,6 +53,21 @@ class VoteSlip {
     }
 }
 
+// Thanks gpt
+function normalizeList(nums: number[]): number[] {
+    let nonZeroCount = nums.filter(num => num > 0).length; // Count numbers > 0
+  
+    for (let target = 1; target <= nonZeroCount; target++) {
+      // Step: Reduce numbers > target until `target` appears
+      while (!nums.includes(target)) {
+        nums = nums.map(num => (num >= target ? num - 1 : num));
+      }
+    }
+  
+    return nums;
+  }
+
+  
 class CalonLogger {
     calon_names: string[];
     selection: VoteSlip[];
@@ -103,8 +118,9 @@ class CalonLogger {
             worksheet.addRow([])
             worksheet.addRow(["","Date","Time",...this.calon_names])
             for (const result of this.selection) {
-                worksheet.addRow(["",result.date,result.time,...result.selection])
-                console.log("Voted the following : " + result.selection)
+                let normalized = normalizeList(result.selection)
+                worksheet.addRow(["",result.date,result.time,...normalized])
+                console.log("Voted the following : " + normalized)
             }
             await sheets.xlsx.writeFile('output_' + safeFilename + '.xlsx');
             console.log("Completed")

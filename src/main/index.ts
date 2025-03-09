@@ -67,6 +67,23 @@ function createAuthWindow() {
   
 }
 
+async function votingPrep(): Promise<boolean> {
+  console.log("Prep called")
+  try {
+    calon_list = getCalonList();
+    // Prepare CalonLogger object
+    calonLogger = new CalonLogger(calon_list);
+    calon_count = calon_list.length;
+    console.log("Prep success")
+    return true;
+  } catch(e) {
+    authenticated = false;
+    throw e;
+  }
+  console.log("Prep failed")
+  return false;
+}
+
 function createMainWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -91,11 +108,7 @@ function createMainWindow(): void {
   ipcMain.handle('log-selection', (_event, args) => {return calonLogger.logSelection(args)})
   ipcMain.handle('save-selection', () => {return calonLogger.saveCalonResults()})
   ipcMain.handle('dummy-data-test', () => {dummyDatafier(calonLogger,calon_count)})
-  
-  calon_list = getCalonList();
-  // Prepare CalonLogger object
-  calonLogger = new CalonLogger(calon_list);
-  calon_count = calon_list.length;
+  ipcMain.handle('ready', () => {return votingPrep()})
 
   mainWindow.on('ready-to-show', () => {
     globalShortcut.register('F11', () => {
@@ -134,9 +147,7 @@ app.whenReady().then(() => {
   // and ignore CommandOrControl + R in production.
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
   app.on('browser-window-created', (_, window) => {
-    if (is.dev) {
       optimizer.watchWindowShortcuts(window)
-    }
   })
 
   createAuthWindow()
@@ -166,6 +177,6 @@ app.on('before-quit', async (event) => {
       event.preventDefault();
       await calonLogger.saveCalonResults();
       authenticated = false;
-      app.quit();
     }
+    app.exit();
 })

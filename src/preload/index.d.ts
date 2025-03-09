@@ -26,5 +26,6 @@ declare global {
     calon_utils: calon_utils
     challenge : challenge
     auth: (code : string) => boolean
+    ready: () => Promise<boolean>
   }
 }

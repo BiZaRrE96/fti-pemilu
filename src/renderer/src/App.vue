@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import Ballot from './components/Ballot.vue'
 import Keypad from './components/Keypad.vue'
 import Confimcomp from './components/Confimcomp.vue'
@@ -8,8 +8,6 @@ import Confimcomp from './components/Confimcomp.vue'
 //const exampleCalon : string[] = ["Dewa Nanda Putu","Cunt","Catto"]
 var calonList;
 
-// Get calon list from exposed API then set it to a var
-window.calon_utils.calonList().then((value) => {calonList = value});
 
 // Legacy dev testing functions 
 /*
@@ -50,6 +48,7 @@ function dummification() : void {
   const animend = ref(false);
   const disp_keypad = ref(false);
   const aborted = ref(false);
+  var error : string;
 
   function start_restart(code : string) : void {
     if (window.auth(code)) {
@@ -61,6 +60,13 @@ function dummification() : void {
     }
   }
 
+  onBeforeMount(() => {
+    window.ready().then((value) => {aborted.value = !value}).catch((reason) => {error = reason; aborted.value = true;})
+        
+    // Get calon list from exposed API then set it to a var
+    window.calon_utils.calonList().then((value) => {calonList = value});
+  })
+
 </script>
 
 <template>
@@ -70,7 +76,8 @@ function dummification() : void {
       <audio autoplay loop>
         <source src="/warning.mp3" type="audio/mp3">
       </audio>
-      <Keypad :onsend="start_restart"/>
+      <Keypad v-if="!error" :onsend="start_restart"/>
+      <h3 v-else> {{ error }} </h3>
     </div>
     <div v-else-if="!start && !complete" key="waiting" class="wrapper clickable" @click="(_event) => {start= !start}">
       <h1>MTI Voting App</h1>

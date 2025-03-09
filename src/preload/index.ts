@@ -21,6 +21,7 @@ try {
   contextBridge.exposeInMainWorld('test', { testPing: () => ipcRenderer.invoke("ping"), testPrint: () => ipcRenderer.invoke("printCalon")})
   contextBridge.exposeInMainWorld('calon_utils', calon_utils)
   contextBridge.exposeInMainWorld('auth', auth_code)
+  contextBridge.exposeInMainWorld('ready',() => {return ipcRenderer.invoke('ready')})
 } catch (error) {
   console.error(error)
 }
